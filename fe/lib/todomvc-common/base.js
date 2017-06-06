@@ -130,7 +130,7 @@
 	}
 
 	function findRoot() {
-		var base = location.href.indexOf('examples/');
+		var base = location.href.indexOf('/');
 		return location.href.substr(0, base);
 	}
 

@@ -28,7 +28,7 @@ jQuery(function ($) {
 		pluralize: function (count, word) {
 			return count === 1 ? word : word + 's';
 		},
-		store: function (namespace, data) {
+		store: function (namespace, data) { //connect store to json page from spring
 			if (arguments.length > 1) {
 				return localStorage.setItem(namespace, JSON.stringify(data));
 			} else {
@@ -40,9 +40,9 @@ jQuery(function ($) {
 
 	var App = {
 		init: function () {
-			this.todos = util.store('todos-jquery');
-			this.todoTemplate = Handlebars.compile($('#todo-template').html());
-			this.footerTemplate = Handlebars.compile($('#footer-template').html());
+			this.todos = util.store('todos-jquery'); //connect to db
+			this.todoTemplate = Handlebars.compile($('.todo-template').html());
+			this.footerTemplate = Handlebars.compile($('.footer-template').html());
 			this.bindEvents();
 
 			new Router({
@@ -53,10 +53,10 @@ jQuery(function ($) {
 			}).init('/all');
 		},
 		bindEvents: function () {
-			$('#new-todo').on('keyup', this.create.bind(this));
-			$('#toggle-all').on('change', this.toggleAll.bind(this));
-			$('#footer').on('click', '#clear-completed', this.destroyCompleted.bind(this));
-			$('#todo-list')
+			$('.new-todo').on('keyup', this.create.bind(this));
+			$('.toggle-all').on('change', this.toggleAll.bind(this));
+			$('.footer').on('click', '.clear-completed', this.destroyCompleted.bind(this));
+			$('.todo-list')
 				.on('change', '.toggle', this.toggle.bind(this))
 				.on('dblclick', 'label', this.editingMode.bind(this))
 				.on('keyup', '.edit', this.editKeyup.bind(this))
@@ -65,11 +65,11 @@ jQuery(function ($) {
 		},
 		render: function () {
 			var todos = this.getFilteredTodos();
-			$('#todo-list').html(this.todoTemplate(todos));
-			$('#main').toggle(todos.length > 0);
-			$('#toggle-all').prop('checked', this.getActiveTodos().length === 0);
+			$('.todo-list').html(this.todoTemplate(todos));
+			$('.main').toggle(todos.length > 0);
+			$('.toggle-all').prop('checked', this.getActiveTodos().length === 0);
 			this.renderFooter();
-			$('#new-todo').focus();
+			$('.new-todo').focus();
 			util.store('todos-jquery', this.todos);
 		},
 		renderFooter: function () {
@@ -82,7 +82,7 @@ jQuery(function ($) {
 				filter: this.filter
 			});
 
-			$('#footer').toggle(todoCount > 0).html(template);
+			$('.footer').toggle(todoCount > 0).html(template);
 		},
 		toggleAll: function (e) {
 			var isChecked = $(e.target).prop('checked');
