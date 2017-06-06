@@ -41,8 +41,8 @@ jQuery(function ($) {
 	var App = {
 		init: function () {
 			this.todos = util.store('todos-jquery'); //connect to db
-			this.todoTemplate = Handlebars.compile($('.todo-template').html());
-			this.footerTemplate = Handlebars.compile($('.footer-template').html());
+			this.todoTemplate = Handlebars.compile($('#todo-template').html());
+			this.footerTemplate = Handlebars.compile($('#footer-template').html());
 			this.bindEvents();
 
 			new Router({
